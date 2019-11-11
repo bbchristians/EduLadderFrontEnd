@@ -5,9 +5,17 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-//import qimage from './questions/sample_q.jpeg'
-  
-//const imageBase = './../../static/images/questions/';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles(theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
 
 class QuestionCard extends React.Component {
   
@@ -17,13 +25,17 @@ class QuestionCard extends React.Component {
       cardData: {
         questionId: "Unknown",
         imageId: "sample_q.jpeg"
-      }
+      },
+      answerable: false,
+      answer: '',
     }
+    this.AnswerTextField = React.createRef();
   }
   
   componentDidMount() {
     this.setState({
-      cardData: this.props.cardData
+      cardData: this.props.cardData,
+      answerable: this.props.answerable
     });
   }
   
@@ -36,6 +48,10 @@ class QuestionCard extends React.Component {
         <Typography variant="body2" color="textSecondary" component="p">
           What is the solution to this question?
         </Typography>
+        { this.state.answerable ? 
+          <TextField label="Answer" margin="normal" variant="outlined" onChange={this.questionAnswered}/>
+          : undefined
+        }
       </CardContent>
      </Card>
     );
@@ -49,6 +65,16 @@ class QuestionCard extends React.Component {
       }
     });
   }
+  
+  questionAnswered = (event) => {
+    this.setState({
+      cardData: this.state.cardData,
+      answerable: this.state.answerable,
+      answer: event.target.value
+    });
+  }
+  
+  getAnswer() { return(this.state.answer); }
 }
 
 export default QuestionCard;

@@ -43,7 +43,7 @@ class RankView extends React.Component {
             justify="center"
             alignItems="center">
           <Grid item xs={5}>
-            <QuestionCard cardData={this.state.leftCardData}/>
+            <QuestionCard cardData={this.state.leftCardData} answerable={false}/>
           </Grid>
           <Grid item xs={2} align='center'>
             <StyledToggleButtonGroup size="medium" exclusive onChange={this.handleToggle}>
@@ -59,7 +59,7 @@ class RankView extends React.Component {
             </StyledToggleButtonGroup>
           </Grid>
           <Grid item xs={5}>
-            <QuestionCard cardData={this.state.rightCardData}/>
+            <QuestionCard cardData={this.state.rightCardData} answerable={false}/>
           </Grid>
           <Grid container xs={12} justify='center'>
             { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
@@ -68,7 +68,7 @@ class RankView extends React.Component {
             }
           </Grid>
           <Grid container xs={12} justify='center'>
-            { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
+            { this.state.isRelated !== 'Unknown'
               ?
                 <Button variant="contained" color="primary" onClick={this.submitRanking}>
                   Submit
@@ -90,9 +90,13 @@ class RankView extends React.Component {
   }
   
   submitRanking = () => {
+    let sliderValue = 0;
+    if( this.RelatednessSlider.current ) {
+      sliderValue = this.RelatednessSlider.current.getValue();
+    }
     new SubmitRankingRequest(
       this.state.isRelated, 
-      this.RelatednessSlider.current.getValue(), 
+      sliderValue, 
       this.state.leftCardData.questionId,
       this.state.rightCardData.questionId
     ).send();
