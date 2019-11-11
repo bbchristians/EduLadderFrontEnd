@@ -5,7 +5,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-
+//import qimage from './questions/sample_q.jpeg'
+  
+//const imageBase = './../../static/images/questions/';
 
 class QuestionCard extends React.Component {
   
@@ -13,7 +15,8 @@ class QuestionCard extends React.Component {
     super()
     this.state = {
       cardData: {
-        questionId: "Unknown"
+        questionId: "Unknown",
+        imageId: "sample_q.jpeg"
       }
     }
   }
@@ -25,11 +28,10 @@ class QuestionCard extends React.Component {
   }
   
   render() {
-    let cardTitle = "Question " + this.state.cardData.questionId
+    let cardTitle = "Question " + this.state.cardData.questionId;
     return (
      <Card onClick={this.questionClicked}>
       <CardHeader title={cardTitle}/>
-      <CardMedia image="/static/images/questions/sample_q.jpeg"/>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           What is the solution to this question?
@@ -39,14 +41,11 @@ class QuestionCard extends React.Component {
     );
   }
   
-  //<div className="question" >
-  //      
-  //    </div>
-  
   questionClicked = () => {
     this.setState({
       cardData: {
-        questionId: this.state.cardData.questionId + 1
+        questionId: this.state.cardData.questionId + 1,
+        imageId: this.state.cardData.imageId
       }
     });
   }
