@@ -1,9 +1,21 @@
 import React from 'react';
-import QuestionCard from './QuestionCard';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import QuestionCard from './QuestionCard';
 import RelatednessSlider from './RelatednessSlider'
 import SubmitRankingRequest from '../requests/SubmitRanking'
+
+const StyledToggleButtonGroup = withStyles(theme => ({
+  root: {
+    flexDirection: 'column',
+  },
+  grouped: {
+    border: 'none',
+  },
+}))(ToggleButtonGroup);
 
 class RankView extends React.Component {
   
@@ -18,12 +30,13 @@ class RankView extends React.Component {
         questionId: 2,
         imageId: 'sample_q.jpeg'
       },
-      isRelated: false
+      isRelated: 'Unknown'
     }
     this.RelatednessSlider = React.createRef();
   }
   
   render() {
+
     return (
       <div className="RankView">
         <Grid container spacing={2}
@@ -32,28 +45,30 @@ class RankView extends React.Component {
           <Grid item xs={5}>
             <QuestionCard cardData={this.state.leftCardData}/>
           </Grid>
-          <Grid item xs={2}>
-            <Button variant="contained" color="primary" fullWidth={true} onClick={this.answeredRelated}>
-              Related
-            </Button>
-            <Button variant="contained" color="primary" fullWidth={true} onClick={this.answeredRelated}>
-              Similar
-            </Button>
-            <Button variant="contained" color="primary" fullWidth={true} onClick={this.answeredUnrelated}>
-              Different
-            </Button>
+          <Grid item xs={2} align='center'>
+            <StyledToggleButtonGroup size="medium" exclusive onChange={this.handleToggle}>
+              <ToggleButton value='Related' selected={this.state.isRelated === 'Related'}>
+                Related
+              </ToggleButton>
+              <ToggleButton value='Similar' selected={this.state.isRelated === 'Similar'}>
+                Similar
+              </ToggleButton>
+              <ToggleButton value='Unrelated' selected={this.state.isRelated === 'Unrelated'}>
+                Different
+              </ToggleButton>
+            </StyledToggleButtonGroup>
           </Grid>
           <Grid item xs={5}>
             <QuestionCard cardData={this.state.rightCardData}/>
           </Grid>
           <Grid container xs={12}>
-            { this.state.isRelated
+            { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
               ? <RelatednessSlider ref={this.RelatednessSlider}/>
               : undefined
             }
           </Grid>
           <Grid container xs={12} justify='center'>
-            { this.state.isRelated
+            { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
               ?
                 <Button variant="contained" color="primary" onClick={this.submitRanking}>
                   Submit
@@ -66,24 +81,21 @@ class RankView extends React.Component {
     );
   }
   
-  answeredRelated = () => {
+  handleToggle = (event, newValue) => {
     this.setState({
       leftCardData: this.state.leftCardData,
       rightCardData: this.state.rightCardData,
-      isRelated: true
-    });
-  }
-  
-  answeredUnrelated = () => {
-    this.setState({
-      leftCardData: this.state.leftCardData,
-      rightCardData: this.state.rightCardData,
-      isRelated: false
+      isRelated: newValue
     });
   }
   
   submitRanking = () => {
-    new SubmitRankingRequest(this.state.isRelated, this.RelatednessSlider.current.getValue()).send();
+    new SubmitRankingRequest(
+      this.state.isRelated, 
+      this.RelatednessSlider.current.getValue(), 
+      this.state.leftCardData.questionId,
+      this.state.rightCardData.questionId
+    ).send();
   }
 }
 

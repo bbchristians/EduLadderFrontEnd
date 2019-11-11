@@ -65,7 +65,7 @@ class RelatednessSlider extends React.Component {
   constructor() {
     super();
     this.state = {
-      sliderValue: 50
+      sliderValue: 50.0
     }
   }
   
@@ -76,7 +76,7 @@ class RelatednessSlider extends React.Component {
           Question 1 is more complex
         </Grid>
         <Grid item xs={8}>
-          <IOSSlider aria-label="ios slider" defaultValue={50} marks={marks}/>
+          <IOSSlider defaultValue={50} marks={marks} onChange={this.handleSliderChange}/>
         </Grid>
         <Grid item xs={2}>
           Question 2 is more complex
@@ -87,7 +87,7 @@ class RelatednessSlider extends React.Component {
   
   handleSliderChange = (event, value) => this.setState({ sliderValue: value });
   
-  getValue() { return( this.state.sliderValue ); }
+  getValue() { return( (this.state.sliderValue - 50.0) / 50.0 ); }
   
 }
 
