@@ -61,7 +61,7 @@ class RankView extends React.Component {
           <Grid item xs={5}>
             <QuestionCard cardData={this.state.rightCardData}/>
           </Grid>
-          <Grid container xs={12}>
+          <Grid container xs={12} justify='center'>
             { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
               ? <RelatednessSlider ref={this.RelatednessSlider}/>
               : undefined

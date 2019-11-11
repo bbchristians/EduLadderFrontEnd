@@ -7,19 +7,16 @@ const iOSBoxShadow = '0 3px 1px rgba(0,0,0,0.1),0 4px 8px rgba(0,0,0,0.13),0 0 0
 
 const marks = [
   {
-    value: 0,
-  },
-  {
-    value: 25,
+    value:  0,
+    label: 'Question 1 is far more complex'
   },
   {
     value: 50,
+    label: 'Similar'
   },
   {
-    value: 75,
-  },
-  {
-    value: 100,
+    value:  100,
+    label: 'Question 2 is far more complex'
   },
 ];
 
@@ -58,6 +55,10 @@ const IOSSlider = withStyles({
     width: 1,
     marginTop: -3,
   },
+  markLabel: {
+    color: '#bfbfbf',
+    paddingTop: 8
+  }
 })(Slider);
 
 class RelatednessSlider extends React.Component {
@@ -72,14 +73,8 @@ class RelatednessSlider extends React.Component {
   render() {
     return(
       <Grid container spacing={3} alignItems='center'>
-        <Grid item xs={2}>
-          Question 1 is more complex
-        </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <IOSSlider defaultValue={50} marks={marks} onChange={this.handleSliderChange}/>
-        </Grid>
-        <Grid item xs={2}>
-          Question 2 is more complex
         </Grid>
       </Grid>
     );
