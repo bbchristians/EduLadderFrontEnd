@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
@@ -23,8 +22,8 @@ class QuestionCard extends React.Component {
     super()
     this.state = {
       cardData: {
-        questionId: "Unknown",
-        imageId: "sample_q.jpeg"
+        questionId: -1,
+        questionText: 'Unknown'
       },
       answerable: false,
       answer: '',
@@ -42,11 +41,11 @@ class QuestionCard extends React.Component {
   render() {
     let cardTitle = "Question " + this.state.cardData.questionId;
     return (
-     <Card onClick={this.questionClicked}>
+     <Card>
       <CardHeader title={cardTitle}/>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          What is the solution to this question?
+          {this.state.cardData.questionText}
         </Typography>
         { this.state.answerable ? 
           <TextField label="Answer" margin="normal" variant="outlined" onChange={this.questionAnswered}/>
@@ -57,19 +56,8 @@ class QuestionCard extends React.Component {
     );
   }
   
-  questionClicked = () => {
-    this.setState({
-      cardData: {
-        questionId: this.state.cardData.questionId + 1,
-        imageId: this.state.cardData.imageId
-      }
-    });
-  }
-  
   questionAnswered = (event) => {
     this.setState({
-      cardData: this.state.cardData,
-      answerable: this.state.answerable,
       answer: event.target.value
     });
   }

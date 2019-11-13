@@ -14,8 +14,13 @@ const StyledToggleButtonGroup = withStyles(theme => ({
   },
   grouped: {
     border: 'none',
-  },
+  }
 }))(ToggleButtonGroup);
+
+const divStyle = {
+  marginLeft: '140px',
+  marginRight: '140px',
+}
 
 class RankView extends React.Component {
   
@@ -23,12 +28,12 @@ class RankView extends React.Component {
     super()
     this.state = {
       leftCardData: {
-        questionId: 1,
-        imageId: 'sample_q.jpeg'
+        questionId: 13123,
+        questionText: "This is a sample question"
       },
       rightCardData: {
-        questionId: 2,
-        imageId: 'sample_q.jpeg'
+        questionId: 5012,
+        questionText: "This is a different sample question"
       },
       isRelated: 'Unknown'
     }
@@ -38,7 +43,7 @@ class RankView extends React.Component {
   render() {
 
     return (
-      <div className="RankView">
+      <Grid container style={divStyle} r={50}>
         <Grid container spacing={2}
             justify="center"
             alignItems="center">
@@ -61,13 +66,13 @@ class RankView extends React.Component {
           <Grid item xs={5}>
             <QuestionCard cardData={this.state.rightCardData} answerable={false}/>
           </Grid>
-          <Grid container xs={12} justify='center'>
+          <Grid container xs={12} justify='center'  alignContent='center'>
             { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
               ? <RelatednessSlider ref={this.RelatednessSlider}/>
               : undefined
             }
           </Grid>
-          <Grid container xs={12} justify='center'>
+          <Grid container xs={12} justify='center'  alignContent='center'>
             { this.state.isRelated !== 'Unknown'
               ?
                 <Button variant="contained" color="primary" onClick={this.submitRanking}>
@@ -77,7 +82,7 @@ class RankView extends React.Component {
             }
           </Grid>
         </Grid>
-      </div>
+      </Grid>
     );
   }
   
