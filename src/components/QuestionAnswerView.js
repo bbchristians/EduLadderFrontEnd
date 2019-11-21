@@ -7,6 +7,12 @@ import GradeLevelQuestionCard from './GradeLevelQuestionCard'
 import SubmitAnswerRequest from '../requests/SubmitAnswer'
 import GetQuestionRequest from '../requests/GetQuestion'
 
+
+const divStyle = {
+  marginLeft: '140px',
+  marginRight: '140px',
+}
+
 class QuestionAnswerView extends React.Component {
   
   constructor() {
@@ -27,7 +33,7 @@ class QuestionAnswerView extends React.Component {
   render() {
 
     return (
-      <div className="RankView">
+      <div className="RankView" style={divStyle}>
           {
             this.state.gradeLevel === undefined ? 
               <Grid container spacing={2}

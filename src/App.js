@@ -42,9 +42,11 @@ class App extends React.Component {
             </ListItem>
           </List>
         </Drawer>
+        <div>
         {
           this.renderContent()
         }
+        </div>
       </div>
     );
   }
