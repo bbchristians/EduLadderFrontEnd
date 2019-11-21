@@ -12,7 +12,7 @@ class HomeView extends React.Component {
 
     return (
       <div className="HomeView" style={divStyle}>
-        <p> Welcome to %UNNAMED_PROJECT%. Here, you can answer math questions to discover areas of your misunderstanding.</p>
+        <p> Welcome to EduLadder. Here, you can answer math questions to discover areas of your misunderstanding.</p>
         <p> You can also spend some time classifying questions to help the system learn what its data means. </p>
 
       </div>

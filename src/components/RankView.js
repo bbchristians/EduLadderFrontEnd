@@ -7,6 +7,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import QuestionCard from './QuestionCard';
 import RelatednessSlider from './RelatednessSlider'
 import SubmitRankingRequest from '../requests/SubmitRanking'
+import GetRankableQuestionsRequest from '../requests/GetRankableQuestions'
 
 const StyledToggleButtonGroup = withStyles(theme => ({
   root: {
@@ -28,16 +29,20 @@ class RankView extends React.Component {
     super()
     this.state = {
       leftCardData: {
-        questionId: 13123,
-        questionText: "This is a sample question"
+        questionId: -1,
+        questionText: "UNKNOWN"
       },
       rightCardData: {
-        questionId: 5012,
-        questionText: "This is a different sample question"
+        questionId: -1,
+        questionText: "UNKNOWN"
       },
       isRelated: 'Unknown'
     }
     this.RelatednessSlider = React.createRef();
+    
+    let rankableQuestionData = new GetRankableQuestionsRequest().send();
+    this.state.leftCardData = rankableQuestionData.card1;
+    this.state.rightCardData = rankableQuestionData.card2;
   }
   
   render() {
@@ -105,6 +110,12 @@ class RankView extends React.Component {
       this.state.leftCardData.questionId,
       this.state.rightCardData.questionId
     ).send();
+    let newQuestions = new GetRankableQuestionsRequest().send();
+    this.setState({
+      leftCardData: newQuestions.card1,
+      rightCardData: newQuestions.card2,
+      isRelated: 'Unknown'
+    });
   }
 }
 
