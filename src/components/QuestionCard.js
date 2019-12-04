@@ -10,16 +10,25 @@ class QuestionCard extends React.Component {
   constructor() {
     super()
     this.state = {
-      answerable: false,
       answer: '',
     }
     this.AnswerTextField = React.createRef();
   }
   
   render() {
-    let cardTitle = "Question " + this.props.cardData.questionId;
+    let cardTitle = this.props.cardTitle || "Question " + this.props.cardData.questionId;
+    let cardStyle = {} 
+    console.log(this.props.correct);
+
+    if( this.props.correct !== undefined ) {
+      cardStyle = {
+        background: this.props.correct ? '#0A0' : '#A00',
+        color: '#DDD'
+      }
+      console.log(cardStyle);
+    }
     return (
-     <Card>
+     <Card style={cardStyle}>
       <CardHeader title={cardTitle}/>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
