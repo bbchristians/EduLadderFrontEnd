@@ -2,30 +2,15 @@
 
 class GetRankableQuestionsRequest {
   
-  constructor() { }
-  
-  send = () => {
-    // TODO request logic
-    return {
-      card1: {
-        questionId: "123",
-        questionText: "5 + 5 = ?",
-        answerSet: [
-          "10",
-          "ten"
-        ],
-        units: ""
-      },
-      card2: {
-        questionId: "123",
-        questionText: "5 + 5 = ?",
-        answerSet: [
-          "10",
-          "ten"
-        ],
-        units: ""
-      }
-    }
+  send = async () => {
+    const response = await fetch(
+        'http://localhost:4567/getRankableQuestions', 
+        {
+          method: 'GET'
+        }
+      );
+    const json = await response.json()
+    return json
   }
   
 }

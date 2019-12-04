@@ -8,10 +8,20 @@ class SubmitAnswerRequest {
     this.answer = answer;
   }
   
-  send = () => {
-    // TODO request logic
-    alert('request sent: sessionId= ' + this.sessionId + ' , question=' + this.questionId + ' , answer=' + this.answer);
-    return 0;
+  send = async () => {
+    const response = await fetch(
+        'http://localhost:4567/submitAnswer', 
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            sessionId: this.sessionId,
+            questionId: this.questionId,
+            answer: this.answer
+          })
+        }
+      );
+    const json = await response.json()
+    return json
   }
   
 }

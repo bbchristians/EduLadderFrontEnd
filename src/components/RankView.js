@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import QuestionCard from './QuestionCard';
 import RelatednessSlider from './RelatednessSlider'
 import SubmitRankingRequest from '../requests/SubmitRanking'
@@ -30,19 +30,19 @@ class RankView extends React.Component {
     this.state = {
       leftCardData: {
         questionId: -1,
-        questionText: "UNKNOWN"
+        questionText: "LOADING..."
       },
       rightCardData: {
         questionId: -1,
-        questionText: "UNKNOWN"
+        questionText: "LOADING..."
       },
       isRelated: 'Unknown'
     }
     this.RelatednessSlider = React.createRef();
-    
-    let rankableQuestionData = new GetRankableQuestionsRequest().send();
-    this.state.leftCardData = rankableQuestionData.card1;
-    this.state.rightCardData = rankableQuestionData.card2;
+  }
+  
+  componentDidMount() {
+    this.getRankableQuestions();
   }
   
   render() {
@@ -71,13 +71,13 @@ class RankView extends React.Component {
           <Grid item xs={5}>
             <QuestionCard cardData={this.state.rightCardData} answerable={false}/>
           </Grid>
-          <Grid container xs={12} justify='center'  alignContent='center'>
+          <Grid container justify='center'  alignContent='center'>
             { this.state.isRelated !== 'Unrelated' && this.state.isRelated !== 'Unknown'
               ? <RelatednessSlider ref={this.RelatednessSlider}/>
               : undefined
             }
           </Grid>
-          <Grid container xs={12} justify='center'  alignContent='center'>
+          <Grid containernjustify='center'  alignContent='center'>
             { this.state.isRelated !== 'Unknown'
               ?
                 <Button variant="contained" color="primary" onClick={this.submitRanking}>
@@ -110,12 +110,20 @@ class RankView extends React.Component {
       this.state.leftCardData.questionId,
       this.state.rightCardData.questionId
     ).send();
-    let newQuestions = new GetRankableQuestionsRequest().send();
-    this.setState({
-      leftCardData: newQuestions.card1,
-      rightCardData: newQuestions.card2,
+    this.getRankableQuestions()
+  }
+    
+  getRankableQuestions = async () => {
+    let newQuestions = await new GetRankableQuestionsRequest().send();
+    console.log(this.state);
+    console.log(newQuestions);
+    await this.setState({
+      leftCardData: newQuestions.question1,
+      rightCardData: newQuestions.question2,
       isRelated: 'Unknown'
     });
+    console.log(this.state);
+    this.setState({});
   }
 }
 

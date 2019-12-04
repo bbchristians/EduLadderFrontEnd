@@ -2,24 +2,27 @@
 
 class GetQuestionRequest {
   
-  constructor(sessionId, gradeLevel) {
+  constructor(sessionId, gradeLevel, answeredQuestions) {
     this.sessionId = sessionId;
-    this.gradeLevel = gradeLevel
+    this.gradeLevel = gradeLevel;
+    this.answeredQuestions = answeredQuestions;
   }
   
-  send = () => {
-    // TODO request logic
-    return {
-      questionId: "123",
-      questionText: "5 + 5 = ?",
-      answerSet: [
-        "10",
-        "ten"
-      ],
-      units: ""
-    }
+  send = async () => {
+    const response = await fetch(
+        'http://localhost:4567/getQuestion', 
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            sessionId: this.sessionId,
+            gradeLevel: this.gradeLevel,
+            answeredQuestions: this.answeredQuestions
+          })
+        }
+      );
+    const json = await response.json()
+    return json.question
   }
-  
 }
 
 
