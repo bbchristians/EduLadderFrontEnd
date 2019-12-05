@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import QuestionCard from './QuestionCard';
 import GradeLevelQuestionCard from './GradeLevelQuestionCard'
-// import SubmitAnswerRequest from '../requests/SubmitAnswer'
 import GetQuestionRequest from '../requests/GetQuestion'
 
 
@@ -35,16 +34,6 @@ class QuestionAnswerView extends React.Component {
   }
 
   render() {
-    if( this.state.cardData.response === 1 ) {
-      console.log("You're all set!");
-      // TODO we need to replace this with some sort of pop-up
-    }
-
-    if( this.state.cardData.response === 2 ) {
-      console.log("You need some work!");
-      // TODO we need to replace this with some osrt of pop-up
-    }
-
     return (
       <div className="RankView" style={divStyle}>
           {
@@ -77,7 +66,7 @@ class QuestionAnswerView extends React.Component {
                     </Grid>
                     :
                     <Grid container justify='center'>
-                      <Button variant="contained" color="primary" onClick={this.continue}>
+                      <Button variant="contained" color="primary" onClick={this.continueOnClick}>
                         Continue
                       </Button>
                     </Grid>
@@ -89,16 +78,6 @@ class QuestionAnswerView extends React.Component {
   }
   
   makeAnswer = () => {
-    // let response = new SubmitAnswerRequest(
-    //   this.state.sessionId,
-    //   this.state.cardData.questionId,
-    //   this.QuestionCard.current.getAnswer()
-    // ).send()
-    // if( response === 0 ) {
-    //   let cardData = new GetQuestionRequest(this.state.sessionId, this.state.gradeLevel, this.state.answeredQuestions).send()
-    //   this.setState({cardData: cardData})
-    // }
-
     if( this.state.cardData.answers.includes(this.QuestionCard.current.getAnswer()) ) {
       console.log("CORRECT!");
       this.setState({
@@ -116,10 +95,6 @@ class QuestionAnswerView extends React.Component {
         }
       });
     }
-    
-
-    // let cardData = new GetQuestionRequest(this.state.sessionId, this.state.gradeLevel, this.state.answeredQuestions).send()
-    // this.setState({cardData: cardData})
   }
 
   setGradeLevel = async() => {
@@ -163,6 +138,12 @@ class QuestionAnswerView extends React.Component {
                       this.state.cardData
                       } answerable={true} ref={this.QuestionCard} correct={questionAnsweredCorrectly} cardTitle={newCardTitle}/>;
     }
+  }
+
+  continueOnClick = () => {
+    console.log(this.QuestionCard.current);
+    this.QuestionCard.current.clearAnswer();
+    this.continue();
   }
 
   continue = async() => {

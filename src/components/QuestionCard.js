@@ -11,6 +11,7 @@ class QuestionCard extends React.Component {
     super()
     this.state = {
       answer: '',
+      forcedValue: undefined
     }
     this.AnswerTextField = React.createRef();
   }
@@ -35,7 +36,7 @@ class QuestionCard extends React.Component {
           {this.props.cardData.questionText}
         </Typography>
         { this.props.answerable ? 
-          <TextField label="Answer" margin="normal" variant="outlined" onChange={this.questionAnswered}/>
+          <TextField label="Answer" margin="normal" variant="outlined" onChange={this.questionAnswered} ref={this.AnswerTextField} value={this.state.forcedValue}/>
           : undefined
         }
       </CardContent>
@@ -45,11 +46,20 @@ class QuestionCard extends React.Component {
   
   questionAnswered = (event) => {
     this.setState({
-      answer: event.target.value
+      answer: event.target.value,
+      forcedValue: undefined
     });
   }
   
   getAnswer() { return(this.state.answer); }
+
+  clearAnswer() {
+    console.log("Question cleared!");
+    console.log(this.AnswerTextField.current.value);
+    this.setState({
+      forcedValue: ""
+    })
+  }
 }
 
 export default QuestionCard;
